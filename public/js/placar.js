@@ -1,3 +1,9 @@
+$('#botao-placar').click(mostraPlacar);
+
+function mostraPlacar() {
+    $('.placar').stop().slideToggle(600);
+}
+
 function inserePlacar() {
     var corpoTabela = $('.placar').find('tbody');
     var usuario = 'Vinicius';
@@ -7,6 +13,15 @@ function inserePlacar() {
     linha.find('.botao-remover').click(removeLinha);
 
     corpoTabela.prepend(linha);
+    $('.placar').slideDown(500);
+    scrollPlacar();
+}
+
+function scrollPlacar() {
+    var posicaoPlacar = $('.placar').offset().top;
+    $('html, body').animate({
+        scrollTop: posicaoPlacar+"px"
+    }, 1000);
 }
 
 function novaLinha(usuario, numPalavras) {
@@ -30,5 +45,10 @@ function novaLinha(usuario, numPalavras) {
 
 function removeLinha() {
     event.preventDefault();
-    $(this).parent().parent().remove();
+    var linha = $(this).parent().parent();
+    linha.fadeOut();
+    setTimeout(function() {
+        linha.remove();
+    }, 1000);
+    
 }

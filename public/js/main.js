@@ -63,33 +63,6 @@ function inicializaMarcadores() {
     });
 }
 
-function inserePlacar() {
-    var corpoTabela = $('.placar').find('tbody');
-    var usuario = 'Vinicius';
-    var numPalavras =$('#contador-palavras').text();
-
-    var botaoRemover = "<a href='#' class='botao-remover'>"+
-                            "<i class='small material-icons'>delete</i>"+
-                        "</a>";
-
-    var linha = '<tr>'+
-                    '<td>'+ usuario + '</td>'+
-                    '<td>'+ numPalavras + '</td>'+
-                    '<td>'+ botaoRemover + '</td>'+
-                '</tr>';
-
-    corpoTabela.prepend(linha);
-}
-
-function novaLinha() {
-    
-}
-
-$('.botao-remover').click(function(event) {
-    event.preventDefault();
-    $(this).parent().parent().remove();
-});
-
 function reinciaJogo() {
     campo.toggleClass('campo-desativado');
     campo.removeClass('campo-correto');

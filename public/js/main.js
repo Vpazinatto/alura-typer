@@ -27,6 +27,26 @@ function inicializaContadores() {
     });
 }
 
+function inicializaCronometro() {
+    var tempoRestante = tempoInicial;
+    campo.one('focus', function() {
+        var cronometroID = setInterval(function() {
+            tempoRestante--;
+            $('#tempo-digitacao').text(tempoRestante);
+            if (tempoRestante < 1) {
+                clearInterval(cronometroID);
+                finalizaJogo();
+            }
+        }, 1000);
+    });
+}
+
+function finalizaJogo() {
+    campo.attr('disabled', true);
+    campo.toggleClass('campo-desativado');
+    inserePlacar();
+}
+
 function inicializaMarcadores() {
     campo.on('input', function() {
         var digitado = campo.val();
@@ -35,7 +55,7 @@ function inicializaMarcadores() {
 
         if (digitado == comparavel) {
             campo.addClass('campo-correto');
-            campo.removeClass('campo-errado');        
+            campo.removeClass('campo-errado');      
         } else {
             campo.addClass('campo-errado');
             campo.removeClass('campo-correto');
@@ -43,20 +63,32 @@ function inicializaMarcadores() {
     });
 }
 
-function inicializaCronometro() {
-    var tempoRestante = tempoInicial;
-    campo.one('focus', function() {
-        var cronometroID = setInterval(function() {
-            tempoRestante--;
-            $('#tempo-digitacao').text(tempoRestante);
-            if (tempoRestante < 1) {
-                campo.attr('disabled', true);
-                clearInterval(cronometroID);
-                campo.toggleClass('campo-desativado');
-            }
-        }, 1000);
-    });
+function inserePlacar() {
+    var corpoTabela = $('.placar').find('tbody');
+    var usuario = 'Vinicius';
+    var numPalavras =$('#contador-palavras').text();
+
+    var botaoRemover = "<a href='#' class='botao-remover'>"+
+                            "<i class='small material-icons'>delete</i>"+
+                        "</a>";
+
+    var linha = '<tr>'+
+                    '<td>'+ usuario + '</td>'+
+                    '<td>'+ numPalavras + '</td>'+
+                    '<td>'+ botaoRemover + '</td>'+
+                '</tr>';
+
+    corpoTabela.prepend(linha);
 }
+
+function novaLinha() {
+    
+}
+
+$('.botao-remover').click(function(event) {
+    event.preventDefault();
+    $(this).parent().parent().remove();
+});
 
 function reinciaJogo() {
     campo.toggleClass('campo-desativado');
@@ -69,5 +101,3 @@ function reinciaJogo() {
     $('#tempo-digitacao').text(tempoInicial);
     inicializaCronometro();
 }
-
-

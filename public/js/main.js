@@ -5,6 +5,7 @@ $(function() {
     inicializaCronometro();
     inicializaMarcadores();
     fraseAleatoria();
+    atualizaPlacar()
     //$('#botao-reiniciar').on('click', reiniciaJogo);
     $('#botao-reiniciar').click(reinciaJogo);
 })

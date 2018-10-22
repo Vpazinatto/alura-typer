@@ -1,4 +1,37 @@
 $('#botao-placar').click(mostraPlacar);
+$('#botao-sync').click(sincronizaPlacar);
+
+function sincronizaPlacar() {
+    var placar = [];
+    var linhas = $('tbody>tr');
+    linhas.each(function() {
+        var usuario = $(this).find('td:nth-child(1)').text();
+        var palavras = $(this).find('td:nth-child(2)').text();
+
+        var score = {
+            usuario: usuario,
+            pontos: palavras
+        };
+
+        placar.push(score);
+    });
+
+    var dados = {
+        placar: placar
+    };
+
+    $.post('http://localhost:3000/placar', dados, function() {
+        console.log('Placar salvo no servidor.');
+    });
+}
+
+function atualizaPlacar() {
+    $.get('http://localhost:3000/placar', function(data) {
+        $(data).each(function() {
+            $('tbody').append(novaLinha(this.usuario, this.pontos));
+        });
+    });
+}
 
 function mostraPlacar() {
     $('.placar').stop().slideToggle(600);
@@ -10,7 +43,6 @@ function inserePlacar() {
     var numPalavras =$('#contador-palavras').text();
 
     var linha = novaLinha(usuario, numPalavras);
-    linha.find('.botao-remover').click(removeLinha);
 
     corpoTabela.prepend(linha);
     $('.placar').slideDown(500);
@@ -39,6 +71,7 @@ function novaLinha(usuario, numPalavras) {
     linha.append(colunaUsuario);
     linha.append(colunaPalavras);
     linha.append(colunaRemover);
+    linha.find('.botao-remover').click(removeLinha);
 
     return linha;
 }
@@ -49,6 +82,6 @@ function removeLinha() {
     linha.fadeOut();
     setTimeout(function() {
         linha.remove();
+        sincronizaPlacar();
     }, 1000);
-    
 }

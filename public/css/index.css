@@ -4,7 +4,6 @@
 	vertical-align: top;
 }
 
-
 #botao-jogue{
 	width: 150px;
 	display: block;
@@ -13,4 +12,12 @@
 
 .imagem-jogo {
 	border: 2px solid gray;
+}
+
+.slider {
+    height: auto;
+}
+
+.slick-prev:before, .slick-next:before{
+    color: black;
 }
